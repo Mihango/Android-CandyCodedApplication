@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery("SELECT * FROM candy", null);
 
         final CandyCursorAdapter adapter = new CandyCursorAdapter(this, cursor);
-        ListView listView = (ListView)this.findViewById(R.id.list_view_candy);
+        ListView listView = (ListView) this.findViewById(R.id.list_view_candy);
 
         listView.setAdapter(adapter);
 
@@ -61,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String response) {
                         Log.d("AsyncHttpClient", "response = " + response);
-                        Gson gson = new GsonBuilder().create();;
+                        Gson gson = new GsonBuilder().create();
+                        ;
                         candies = gson.fromJson(response, Candy[].class);
 
                         addCandiesToDatabase(candies);
@@ -80,8 +82,19 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     // ***
-    // TODO - Task 1 - Show Store Information Activity
+    // Task 1 - Show Store Information Activity
     // ***
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.info:
+                Intent infoIntent = new Intent(MainActivity.this, InfoActivity.class);
+                startActivity(infoIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void addCandiesToDatabase(Candy[] candies) {
         SQLiteDatabase db = candyDbHelper.getWritableDatabase();
