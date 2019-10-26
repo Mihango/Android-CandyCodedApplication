@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.info:
                 Intent infoIntent = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(infoIntent);
-                return true;
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
